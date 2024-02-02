@@ -2,7 +2,6 @@ import bcrypt from "bcrypt";
 import validator from "validator";
 import User from "../models/users.model.js";
 import { createToken } from "../utils/jwt.utils.js";
-
 export const registerUser = async (req, res) => {
   try {
     const { name, email, password, username } = req.body;
@@ -98,6 +97,17 @@ export const getAllUsers = async (req, res) => {
   try {
     const users = await User.find({}, ["name", "username"]);
     res.status(200).json({ message: "Users found", users });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Something went wrong" });
+  }
+};
+
+export const getUserById = async (req, res) => {
+  const { userId } = req.user;
+  try {
+    const user = await User.findById(userId, ["name", "username"]);
+    res.status(200).json({ message: "User found", user });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Something went wrong" });
