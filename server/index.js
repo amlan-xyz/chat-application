@@ -4,6 +4,8 @@ import express from "express";
 import "./db/connection.js";
 
 //routes
+import chatRoutes from "./routes/chats.route.js";
+import messageRoutes from "./routes/messages.route.js";
 import userRoutes from "./routes/users.route.js";
 
 const app = express();
@@ -16,6 +18,8 @@ app.get("/", (req, res) => {
 });
 
 app.use("/users", userRoutes);
+app.use("/chats", chatRoutes);
+app.use("/messages", messageRoutes);
 
 const PORT = process.env.PORT || 8080;
 
