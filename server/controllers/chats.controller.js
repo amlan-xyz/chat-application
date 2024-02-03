@@ -2,7 +2,7 @@ import Chat from "../models/chats.model.js";
 
 export const createChat = async (req, res) => {
   const senderId = req.user.userId;
-  const { recieverId } = req.body;
+  const { recieverId } = req.params;
   try {
     const chat = await Chat.findOne({
       members: { $all: [senderId, recieverId] },
@@ -40,10 +40,10 @@ export const findSpecificChat = async (req, res) => {
   const senderId = req.user.userId;
   const { recieverId } = req.params;
   try {
-    const chats = await Chat.findOne({
+    const chat = await Chat.findOne({
       members: { $all: [senderId, recieverId] },
     });
-    res.status(200).json({ message: "Chats found", chats });
+    res.status(200).json({ message: "Chat found", chat });
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Something went wrong" });

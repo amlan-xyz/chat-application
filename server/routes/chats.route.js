@@ -8,10 +8,10 @@ import authVerify from "../middlewares/auth.middleware.js";
 
 const router = express.Router();
 
-router.post("/", authVerify, createChat);
-
 router.get("/", authVerify, findAllChats);
 
 router.get("/:recieverId", authVerify, findSpecificChat);
+
+router.post("/:recieverId", authVerify, createChat);
 
 export default router;

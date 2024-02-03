@@ -9,15 +9,15 @@ import { Chat } from "./pages/Chat/Chat";
 import { RequiresAuth } from "./utils/auth";
 
 function App() {
-  const { loggedIn } = useSelector((state) => state.auth);
+  const { status } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   useEffect(() => {
     const token = localStorage.getItem("token");
-    if (token && !loggedIn) {
+    if (token && status === "idle") {
       dispatch(verifyUserAsync()).then(() => navigate("/"));
     }
-  }, [dispatch, loggedIn, navigate]);
+  }, [dispatch, status, navigate]);
   return (
     <>
       <Navbar />

@@ -2,7 +2,8 @@ import Message from "../models/messages.model.js";
 
 export const createMessage = async (req, res) => {
   const senderId = req.user.userId;
-  const { chatId, text } = req.body;
+  const { chatId } = req.params;
+  const { text } = req.body;
 
   const message = new Message({
     sender_id: senderId,

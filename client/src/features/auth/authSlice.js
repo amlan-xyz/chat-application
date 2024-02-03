@@ -31,15 +31,25 @@ export const verifyUserAsync = createAsyncThunk("auth/verifyUser", async () => {
 export const authSlice = createSlice({
   name: "auth",
   initialState,
-  reducers: {},
+  reducers: {
+    logout: (state) => {
+      state.status = "success";
+      state.loggedIn = false;
+      state.user = null;
+      localStorage.removeItem("token");
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(signupAsync.pending, (state) => {
         state.status = "loading";
       })
       .addCase(signupAsync.fulfilled, (state, action) => {
+        const { user, token } = action.payload;
         state.status = "success";
-        state.user = action.payload;
+        state.user = user;
+        state.loggedIn = true;
+        localStorage.setItem("token", JSON.stringify(token));
       })
       .addCase(signupAsync.rejected, (state) => {
         state.status = "error";
@@ -71,5 +81,7 @@ export const authSlice = createSlice({
       });
   },
 });
+
+export const { logout } = authSlice.actions;
 
 export default authSlice.reducer;

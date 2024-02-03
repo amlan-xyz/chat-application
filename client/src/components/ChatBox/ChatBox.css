@@ -1,0 +1,13 @@
+.chat__box {
+  outline: solid;
+  width: 400px;
+  padding: 1rem;
+}
+
+.align__end {
+  text-align: end;
+}
+
+.align__start {
+  text-align: start;
+}

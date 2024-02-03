@@ -1,6 +1,6 @@
 import express from "express";
 import {
-  findUserByUsername,
+  findUserById,
   getAllUsers,
   getUserById,
   loginUser,
@@ -18,6 +18,6 @@ router.post("/login", loginUser);
 
 router.post("/verify-token", authVerify, getUserById);
 
-router.get("/:username", findUserByUsername);
+router.get("/:id", findUserById);
 
 export default router;

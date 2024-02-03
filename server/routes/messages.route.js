@@ -7,7 +7,7 @@ import authVerify from "../middlewares/auth.middleware.js";
 
 const router = express.Router();
 
-router.post("", authVerify, createMessage);
+router.post("/:chatId", authVerify, createMessage);
 
 router.get("/:chatId", authVerify, getMessages);
 

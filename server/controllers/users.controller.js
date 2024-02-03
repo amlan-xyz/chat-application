@@ -74,13 +74,12 @@ export const loginUser = async (req, res) => {
   }
 };
 
-export const findUserByUsername = async (req, res) => {
-  const { username } = req.params;
-
+export const findUserById = async (req, res) => {
+  const { id } = req.params;
   try {
-    const user = await User.findOne({ username }, ["name", "username"]);
+    const user = await User.findById(id, ["name", "username"]);
     if (!user) {
-      res.status(404).json({ message: "User not found" });
+      return res.status(404).json({ message: "User not found" });
     }
 
     res.status(200).json({
