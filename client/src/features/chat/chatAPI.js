@@ -31,5 +31,11 @@ export const findChatAPI = async (recieverId) => {
       authorization: token,
     },
   });
+
+  return response;
+};
+
+export const getAllUsersAPI = async () => {
+  const response = await axios.get(`${BASE_URL}/users`);
   return response;
 };

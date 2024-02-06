@@ -1,15 +1,23 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { createChatAPI, findAllChatsAPI, findChatAPI } from "./chatAPI";
+import {
+  createChatAPI,
+  findAllChatsAPI,
+  findChatAPI,
+  getAllUsersAPI,
+} from "./chatAPI";
 
 const initialState = {
   status: "idle",
   chats: [],
   currentChat: null,
+  onlineUsers: [],
+  allUsers: [],
 };
 
 export const createChatAsync = createAsyncThunk(
   "chat/createChat",
   async (recieverId) => {
+    console.log(recieverId);
     const response = await createChatAPI(recieverId);
     return response.data;
   }
@@ -31,10 +39,23 @@ export const findChatAsync = createAsyncThunk(
   }
 );
 
+export const getAllUsersAsync = createAsyncThunk(
+  "chat/getAllUsers",
+  async () => {
+    const { data } = await getAllUsersAPI();
+
+    return data;
+  }
+);
+
 export const chatSlice = createSlice({
   name: "chat",
   initialState,
-  reducers: {},
+  reducers: {
+    getOnlineUser: (state, action) => {
+      state.onlineUsers = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(createChatAsync.pending, (state) => {
@@ -44,6 +65,7 @@ export const chatSlice = createSlice({
         const { chat } = action.payload;
         state.status = "success";
         state.chats.push(chat);
+        state.currentChat = chat;
       })
       .addCase(createChatAsync.rejected, (state) => {
         state.status = "error";
@@ -69,8 +91,20 @@ export const chatSlice = createSlice({
       })
       .addCase(findChatAsync.rejected, (state) => {
         state.status = "error";
+      })
+      .addCase(getAllUsersAsync.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(getAllUsersAsync.fulfilled, (state, action) => {
+        const { users } = action.payload;
+        state.status = "success";
+        state.allUsers = users;
+      })
+      .addCase(getAllUsersAsync.rejected, (state) => {
+        state.status = "error";
       });
   },
 });
+export const { getOnlineUser } = chatSlice.actions;
 
 export default chatSlice.reducer;

@@ -25,7 +25,11 @@ export const sendMessageAsync = createAsyncThunk(
 export const messageSlice = createSlice({
   name: "message",
   initialState,
-  reducers: {},
+  reducers: {
+    setMessages: (state, action) => {
+      state.messages.push(action.payload);
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getMessageAsync.pending, (state) => {
@@ -46,11 +50,14 @@ export const messageSlice = createSlice({
         const { message } = action.payload;
         state.status = "success";
         state.messages.push(message);
+        state.sentMessage = message;
       })
       .addCase(sendMessageAsync.rejected, (state) => {
         state.status = "error";
       });
   },
 });
+
+export const { setMessages } = messageSlice.actions;
 
 export default messageSlice.reducer;
