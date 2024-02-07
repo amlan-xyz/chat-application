@@ -23,23 +23,30 @@ export const Navbar = () => {
           <IoChatboxEllipses className="nav__logo" /> Chatter
         </header>
         <div className="nav__list">
-          <div className="nav__item">
-            <img
-              className="profile__img"
-              src="/profile.png"
-              alt="user profile"
-            />
-            <span className="profile__details">
-              {loggedIn && user.username}
-            </span>
-          </div>
-          <div onClick={toggleMenu} className="nav__item">
-            {showMenu ? (
-              <IoIosArrowUp className="nav__arrow" />
-            ) : (
-              <IoIosArrowDown className="nav__arrow" />
-            )}
-          </div>
+          {loggedIn ? (
+            <>
+              {" "}
+              <div className="nav__item">
+                <img
+                  className="profile__img"
+                  src="/profile.png"
+                  alt="user profile"
+                />
+                <span className="profile__details">
+                  {loggedIn && user.username}
+                </span>
+              </div>
+              <div onClick={toggleMenu} className="nav__item">
+                {showMenu ? (
+                  <IoIosArrowUp className="nav__arrow" />
+                ) : (
+                  <IoIosArrowDown className="nav__arrow" />
+                )}
+              </div>
+            </>
+          ) : (
+            <button className="guest__mode-btn">Guest Mode</button>
+          )}
         </div>
 
         <div className={showMenu ? "nav__links" : "nav__links-hide"}>

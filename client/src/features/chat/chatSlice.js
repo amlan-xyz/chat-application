@@ -17,7 +17,6 @@ const initialState = {
 export const createChatAsync = createAsyncThunk(
   "chat/createChat",
   async (recieverId) => {
-    console.log(recieverId);
     const response = await createChatAPI(recieverId);
     return response.data;
   }
@@ -43,7 +42,6 @@ export const getAllUsersAsync = createAsyncThunk(
   "chat/getAllUsers",
   async () => {
     const { data } = await getAllUsersAPI();
-
     return data;
   }
 );

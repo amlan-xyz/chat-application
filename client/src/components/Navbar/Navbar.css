@@ -1,6 +1,9 @@
 .nav {
   height: 12vh;
   box-shadow: var(--shadow);
+  position: sticky;
+  top: 0;
+  z-index: 1;
 }
 
 .nav__body {
@@ -88,6 +91,16 @@
   text-decoration: underline;
 }
 
+.guest__mode-btn {
+  border: none;
+  background-color: var(--primary-color);
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  color: var(--bg-color);
+  font-size: 1rem;
+  box-shadow: var(--shadow);
+}
+
 @media (max-width: 425px) {
   .nav__header {
     font-size: 1.6rem;
@@ -100,5 +113,9 @@
 
   .profile__details {
     display: none;
+  }
+
+  .guest__mode-btn {
+    font-size: 0.8rem;
   }
 }

@@ -1,33 +1,41 @@
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
+import { useSelector } from "react-redux";
 import { ChatBox } from "../../components/ChatBox/ChatBox";
-import { ChatUser } from "../../components/ChatUser/ChatUser";
-import { Navbar } from "../../components/Navbar/Navbar";
-import { AllUsers } from "../../components/Users/Users";
-import { findAllChatsAsync } from "../../features/chat/chatSlice";
+
+import { NewChats } from "../../components/NewChats/NewChats";
+import { RecentChats } from "../../components/RecentChats/RecentChats";
+
+import "./Chat.css";
 export const Chat = () => {
-  const { chats, status, currentChat } = useSelector((state) => state.chat);
-  const dispatch = useDispatch();
-  useEffect(() => {
-    if (status === "idle") {
-      dispatch(findAllChatsAsync());
-    }
-  }, [dispatch, status]);
+  const { currentChat } = useSelector((state) => state.chat);
+  const [recentChat, setRecentChat] = useState(true);
 
   return (
-    <>
-      <Navbar />
-      <h1>Chat</h1>
-      <AllUsers />
-      <ul>
-        {chats?.map((chat) => (
-          <li key={chat._id}>
-            <ChatUser chat={chat} />
-          </li>
-        ))}
-      </ul>
-      <hr />
-      <div>{currentChat !== null ? <ChatBox /> : "No chat to display"}</div>
-    </>
+    <div className="chat container">
+      <div className="sidebar">
+        <div className="sidebar__header">
+          {/* <SearchBar /> */}
+          <div className="sidebar__links">
+            <button
+              className={recentChat ? "highlight" : ""}
+              onClick={() => setRecentChat(true)}
+            >
+              Recent
+            </button>
+            <button
+              className={recentChat ? "" : "highlight"}
+              onClick={() => setRecentChat(false)}
+            >
+              New Chat
+            </button>
+          </div>
+        </div>
+
+        {recentChat ? <RecentChats /> : <NewChats />}
+      </div>
+      <div className="main">
+        <div>{currentChat !== null ? <ChatBox /> : "No chat to display"}</div>
+      </div>
+    </div>
   );
 };

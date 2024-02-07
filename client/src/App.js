@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
 import { io } from "socket.io-client";
+import { Navbar } from "./components/Navbar/Navbar";
 import { verifyUserAsync } from "./features/auth/authSlice";
 import { getOnlineUser } from "./features/chat/chatSlice";
 import { setSocket } from "./features/socket/socketSlice";
@@ -45,6 +46,7 @@ function App() {
 
   return (
     <div className="body">
+      <Navbar />
       <Routes>
         <Route
           path="/"
