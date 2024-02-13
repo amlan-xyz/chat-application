@@ -18,7 +18,10 @@ app.use(cors());
 const http = new createServer(app);
 const io = new Server(http, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: [
+      "http://localhost:3000",
+      "https://chatterbox-by-amlan.vercel.app/",
+    ],
   },
 });
 

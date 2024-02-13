@@ -20,7 +20,7 @@ function App() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const newSocket = io("http://localhost:3001");
+    const newSocket = io("https://chat-app-backend-bt7l.onrender.com/");
     dispatch(setSocket(newSocket));
     return () => {
       newSocket.disconnect();
