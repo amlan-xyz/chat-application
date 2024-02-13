@@ -1,7 +1,148 @@
-.align__end {
-  text-align: end;
+.chatbox {
+  height: 100%;
+}
+.chatbox__body {
+  position: relative;
 }
 
-.align__start {
-  text-align: start;
+.chatbox__header {
+  position: relative;
+  top: 0;
+  display: flex;
+  padding: 0 1rem;
+  background-color: var(--bg-alt);
+  height: 10dvh;
+  align-items: center;
+}
+
+.chatbox__user {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.chatbox__user img {
+  width: 30px;
+  border-radius: 100%;
+  border: 3px solid var(--primary-color);
+}
+
+.chatbox__messages {
+  height: 68dvh;
+  padding: 2rem;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.chatbox__footer {
+  position: relative;
+  bottom: 0;
+  height: 10vh;
+  background-color: var(--alt-color);
+  display: flex;
+  align-items: center;
+  padding-left: 2rem;
+  gap: 1rem;
+  width: 100%;
+}
+
+.chatbox__footer input {
+  height: 40px;
+  width: 90%;
+  border-radius: 10px;
+  border: none;
+  background-color: var(--bg-color);
+  outline: none;
+  padding: 0.5rem 1rem;
+}
+
+.chatbox__footer button {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  display: flex;
+  align-items: center;
+}
+
+.chat__icon {
+  font-size: 2rem;
+}
+
+.message__user-img {
+  width: 30px;
+  aspect-ratio: 1;
+  border-radius: 100%;
+  margin: 0 0.5rem;
+}
+
+.message {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.message__left {
+  justify-content: flex-start;
+}
+
+.message__right {
+  justify-content: flex-end;
+}
+
+.message span {
+  padding: 0.8rem;
+  text-align: center;
+  border-radius: 1rem;
+}
+
+.message__right span {
+  background-color: var(--alt-color);
+}
+
+.message__left span {
+  background-color: var(--bg-alt);
+}
+
+.message .text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.5rem;
+}
+
+.text span {
+  width: 100%;
+}
+
+.text small {
+  padding-right: 0.5rem;
+}
+
+@media (max-width: 768px) {
+  .chatbox__footer {
+    padding-left: 0.5rem;
+    gap: 1rem;
+  }
+
+  .chatbox__footer button {
+    font-size: 1.5rem;
+  }
+
+  .message__user-img {
+    width: 25px;
+  }
+
+  .chatbox__messages {
+    padding: 1rem;
+  }
+  .message span {
+    padding: 0.5rem;
+    font-size: 0.8rem;
+  }
+
+  .text small {
+    font-size: 0.6rem;
+  }
 }

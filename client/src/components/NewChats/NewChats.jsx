@@ -29,16 +29,26 @@ export const NewChats = () => {
   }, [dispatch]);
 
   return (
-    <ul className="new__chats">
-      {possibleChats?.map((user) => (
-        <li onClick={() => createChat(user._id)} className="new__chats-li">
-          <img className="new__chats-img" src="/profile.png" alt="dp" />
-          <div>
-            <p>{user?.name}</p>
-            <small>{user?.username}</small>
-          </div>
-        </li>
-      ))}
-    </ul>
+    <>
+      {possibleChats.length === 0 ? (
+        <div className="no__user">No new users available</div>
+      ) : (
+        <ul className="new__chats">
+          {possibleChats?.map((user) => (
+            <li
+              key={user._id}
+              onClick={() => createChat(user._id)}
+              className="new__chats-li"
+            >
+              <img className="new__chats-img" src={user?.avatar} alt="dp" />
+              <div>
+                <p>{user?.name}</p>
+                <small>{user?.username}</small>
+              </div>
+            </li>
+          ))}
+        </ul>
+      )}
+    </>
   );
 };

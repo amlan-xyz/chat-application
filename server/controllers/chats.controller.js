@@ -29,6 +29,7 @@ export const findAllChats = async (req, res) => {
     const chats = await Chat.find({
       members: { $in: [senderId] },
     });
+
     res.status(200).json({ message: "Chats found", chats });
   } catch (error) {
     console.log(error);

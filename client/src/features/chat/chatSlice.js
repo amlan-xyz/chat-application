@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { toast } from "react-toastify";
 import {
   createChatAPI,
   findAllChatsAPI,
@@ -12,6 +13,7 @@ const initialState = {
   currentChat: null,
   onlineUsers: [],
   allUsers: [],
+  error: null,
 };
 
 export const createChatAsync = createAsyncThunk(
@@ -50,6 +52,13 @@ export const chatSlice = createSlice({
   name: "chat",
   initialState,
   reducers: {
+    clearChatState: (state) => {
+      state.status = "idle";
+      state.chats = [];
+      state.currentChat = null;
+      state.onlineUsers = [];
+      state.allUsers = [];
+    },
     getOnlineUser: (state, action) => {
       state.onlineUsers = action.payload;
     },
@@ -65,8 +74,10 @@ export const chatSlice = createSlice({
         state.chats.push(chat);
         state.currentChat = chat;
       })
-      .addCase(createChatAsync.rejected, (state) => {
+      .addCase(createChatAsync.rejected, (state, action) => {
         state.status = "error";
+        state.error = "Failed to create chat";
+        toast.error("Cannot create chat");
       })
       .addCase(findAllChatsAsync.pending, (state) => {
         state.status = "loading";
@@ -76,8 +87,10 @@ export const chatSlice = createSlice({
         state.status = "success";
         state.chats = chats;
       })
-      .addCase(findAllChatsAsync.rejected, (state) => {
+      .addCase(findAllChatsAsync.rejected, (state, action) => {
         state.status = "error";
+        state.error = "Failed to get chats";
+        toast.error("Failed to get chats");
       })
       .addCase(findChatAsync.pending, (state) => {
         state.status = "loading";
@@ -89,6 +102,8 @@ export const chatSlice = createSlice({
       })
       .addCase(findChatAsync.rejected, (state) => {
         state.status = "error";
+        state.error = "Failed to get chat";
+        toast.error("Failed to get chat");
       })
       .addCase(getAllUsersAsync.pending, (state) => {
         state.status = "loading";
@@ -100,9 +115,11 @@ export const chatSlice = createSlice({
       })
       .addCase(getAllUsersAsync.rejected, (state) => {
         state.status = "error";
+        toast.error("Failed to get users");
+        state.error = "Failed to get users";
       });
   },
 });
-export const { getOnlineUser } = chatSlice.actions;
+export const { getOnlineUser, clearChatState } = chatSlice.actions;
 
 export default chatSlice.reducer;

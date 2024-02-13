@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { loginUser, signupUser, verifyUser } from "./authAPI";
-
+import { toast } from "react-toastify";
+import { loginUser, signupUser, updateAvatarAPI, verifyUser } from "./authAPI";
 const initialState = {
   status: "idle",
   user: null,
@@ -11,7 +11,7 @@ export const signupAsync = createAsyncThunk(
   "auth/signupUser",
   async (userDetails) => {
     const response = await signupUser(userDetails);
-    return response.data;
+    return response;
   }
 );
 
@@ -28,6 +28,14 @@ export const verifyUserAsync = createAsyncThunk("auth/verifyUser", async () => {
   return response.data;
 });
 
+export const updateAvatarAsync = createAsyncThunk(
+  "auth/updateAvatar",
+  async (avatar) => {
+    const response = await updateAvatarAPI(avatar);
+    return response;
+  }
+);
+
 export const authSlice = createSlice({
   name: "auth",
   initialState,
@@ -37,6 +45,7 @@ export const authSlice = createSlice({
       state.loggedIn = false;
       state.user = null;
       localStorage.removeItem("token");
+      toast.success("Logged out");
     },
   },
   extraReducers: (builder) => {
@@ -45,27 +54,31 @@ export const authSlice = createSlice({
         state.status = "loading";
       })
       .addCase(signupAsync.fulfilled, (state, action) => {
-        const { user, token } = action.payload;
+        const { user, token } = action.payload.data;
         state.status = "success";
         state.user = user;
         state.loggedIn = true;
         localStorage.setItem("token", JSON.stringify(token));
+        toast.success("Signup successful");
       })
-      .addCase(signupAsync.rejected, (state) => {
+      .addCase(signupAsync.rejected, (state, action) => {
         state.status = "error";
+        toast.error("Signup failed");
       })
       .addCase(loginAsync.pending, (state) => {
         state.status = "loading";
       })
       .addCase(loginAsync.fulfilled, (state, action) => {
         const { user, token } = action.payload;
-        state.status = "success";
+        localStorage.setItem("token", JSON.stringify(token));
         state.user = user;
         state.loggedIn = true;
-        localStorage.setItem("token", JSON.stringify(token));
+        state.status = "success";
+        toast.success("Logged In");
       })
       .addCase(loginAsync.rejected, (state) => {
         state.status = "error";
+        toast.error("Login failed");
       })
       .addCase(verifyUserAsync.pending, (state) => {
         state.status = "loading";
@@ -75,9 +88,24 @@ export const authSlice = createSlice({
         state.status = "success";
         state.user = user;
         state.loggedIn = true;
+        toast.success("Logged In");
       })
       .addCase(verifyUserAsync.rejected, (state) => {
         state.status = "error";
+        toast.error("Login failed");
+      })
+      .addCase(updateAvatarAsync.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(updateAvatarAsync.fulfilled, (state, action) => {
+        const { user } = action.payload.data;
+        state.user = user;
+        state.status = "success";
+        toast.success("Avatar changed");
+      })
+      .addCase(updateAvatarAsync.rejected, (state) => {
+        state.status = "error";
+        toast.error("Failed to change avatar");
       });
   },
 });

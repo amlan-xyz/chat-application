@@ -1,15 +1,16 @@
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 import { loginAsync } from "../../features/auth/authSlice";
 import "./Auth.css";
 
 import { SiGnuprivacyguard } from "react-icons/si";
 export const Login = () => {
   const { register, handleSubmit } = useForm();
-
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const login = (data) => {
-    dispatch(loginAsync(data));
+    dispatch(loginAsync(data)).then(() => navigate("/"));
   };
   return (
     <div className="auth__container">
@@ -18,7 +19,8 @@ export const Login = () => {
           <SiGnuprivacyguard className="auth__logo" /> Login
         </div>
         <p>
-          Connect to your <span className="highlight">Chatter</span> account
+          Create a new <span className="highlight">Chatter</span> account.{" "}
+          <Link to="/signup">here.</Link>
         </p>
         <form className="auth__form" onSubmit={handleSubmit(login)}>
           <label htmlFor="username">Username</label>

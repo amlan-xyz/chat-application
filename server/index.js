@@ -26,7 +26,6 @@ let users = [];
 
 io.on("connection", (socket) => {
   console.log(`⚡: ${socket.id} user just connected!`);
-
   socket.on("sendMessage", (message) => {
     const user = users.find((user) => user.userId === message.recipientId);
     if (user) {

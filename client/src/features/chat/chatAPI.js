@@ -1,15 +1,13 @@
 import axios from "axios";
 import { BASE_URL } from "../../utils/baseUrl";
 
-const token = JSON.parse(localStorage.getItem("token"));
-
 export const createChatAPI = async (recieverId) => {
   const response = await axios.post(
     `${BASE_URL}/chats/${recieverId}`,
     {},
     {
       headers: {
-        authorization: token,
+        authorization: JSON.parse(localStorage.getItem("token")),
       },
     }
   );
@@ -17,18 +15,22 @@ export const createChatAPI = async (recieverId) => {
 };
 
 export const findAllChatsAPI = async () => {
-  const response = await axios.get(`${BASE_URL}/chats`, {
-    headers: {
-      authorization: token,
-    },
-  });
-  return response;
+  try {
+    const response = await axios.get(`${BASE_URL}/chats`, {
+      headers: {
+        authorization: JSON.parse(localStorage.getItem("token")),
+      },
+    });
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 export const findChatAPI = async (recieverId) => {
   const response = await axios.get(`${BASE_URL}/chats/${recieverId}`, {
     headers: {
-      authorization: token,
+      authorization: JSON.parse(localStorage.getItem("token")),
     },
   });
 

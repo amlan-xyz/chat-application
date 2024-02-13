@@ -5,22 +5,28 @@ import { findAllChatsAsync } from "../../features/chat/chatSlice";
 import "./RecentChat.css";
 export const RecentChats = () => {
   const { chats, status } = useSelector((state) => state.chat);
-
+  const { loggedIn } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (status === "idle") {
+    if (status === "idle" && loggedIn === true) {
       dispatch(findAllChatsAsync());
     }
-  }, [dispatch, status]);
+  }, [dispatch, status, loggedIn]);
 
   return (
-    <ul className="recent__chats">
-      {chats?.map((chat) => (
-        <li key={chat._id}>
-          <ChatUser chat={chat} />
-        </li>
-      ))}
-    </ul>
+    <>
+      {chats.length === 0 ? (
+        <p className="no__user">No recent chats</p>
+      ) : (
+        <ul className="recent__chats">
+          {chats?.map((chat) => (
+            <li key={chat._id}>
+              <ChatUser chat={chat} />
+            </li>
+          ))}
+        </ul>
+      )}
+    </>
   );
 };

@@ -5,6 +5,7 @@ import { ChatBox } from "../../components/ChatBox/ChatBox";
 import { NewChats } from "../../components/NewChats/NewChats";
 import { RecentChats } from "../../components/RecentChats/RecentChats";
 
+import { NoChats } from "../../components/Empty/NoChats";
 import "./Chat.css";
 export const Chat = () => {
   const { currentChat } = useSelector((state) => state.chat);
@@ -33,8 +34,8 @@ export const Chat = () => {
 
         {recentChat ? <RecentChats /> : <NewChats />}
       </div>
-      <div className="main">
-        <div>{currentChat !== null ? <ChatBox /> : "No chat to display"}</div>
+      <div className="chat__content">
+        <div>{currentChat !== null ? <ChatBox /> : <NoChats />}</div>
       </div>
     </div>
   );

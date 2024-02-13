@@ -1,6 +1,8 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { io } from "socket.io-client";
 import { Navbar } from "./components/Navbar/Navbar";
 import { verifyUserAsync } from "./features/auth/authSlice";
@@ -20,11 +22,10 @@ function App() {
   useEffect(() => {
     const newSocket = io("http://localhost:3001");
     dispatch(setSocket(newSocket));
-
     return () => {
       newSocket.disconnect();
     };
-  }, [user, dispatch]);
+  }, [dispatch]);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -35,10 +36,13 @@ function App() {
 
   useEffect(() => {
     if (socket === null) return;
-    socket.emit("addNewUser", user?._id);
-    socket.on("getusers", (res) => {
-      dispatch(getOnlineUser(res));
-    });
+    if (loggedIn === true && user) {
+      socket.emit("addNewUser", user?._id);
+      socket.on("getusers", (res) => {
+        dispatch(getOnlineUser(res));
+      });
+    }
+
     return () => {
       socket.off("getusers");
     };
@@ -46,6 +50,13 @@ function App() {
 
   return (
     <div className="body">
+      <ToastContainer
+        position="bottom-right"
+        autoClose="400"
+        closeOnClick="true"
+        draggable="true"
+        borderRadius="10px"
+      />
       <Navbar />
       <Routes>
         <Route

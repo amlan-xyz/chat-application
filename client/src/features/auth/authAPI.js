@@ -24,3 +24,19 @@ export const verifyUser = async () => {
   );
   return response;
 };
+
+export const updateAvatarAPI = async (avatar) => {
+  const token = JSON.parse(localStorage.getItem("token"));
+  const response = await axios.post(
+    `${BASE_URL}/users/change-avatar`,
+    {
+      newAvatar: avatar,
+    },
+    {
+      headers: {
+        authorization: token,
+      },
+    }
+  );
+  return response;
+};
