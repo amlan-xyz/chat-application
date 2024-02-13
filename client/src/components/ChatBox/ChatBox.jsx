@@ -79,7 +79,7 @@ export const ChatBox = () => {
       <div className="chatbox__body">
         <div className="chatbox__header">
           <div className="chatbox__user">
-            <img src={user?.avatar} alt="user profile" />
+            <img src={receiver?.avatar} alt="user profile" />
             <p>{receiver?.username}</p>
           </div>
         </div>
