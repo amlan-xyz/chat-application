@@ -7,7 +7,7 @@ ChatterBox is a real time chat application created using MERN stack and socket.i
 2. Avatar change.
 3. Loding & Alerts
 9. Authentication
-    - Sing up
+    - Sign up
     - Login
     - Logout
 
