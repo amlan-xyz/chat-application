@@ -19,7 +19,10 @@ const http = new createServer(app);
 
 const io = new Server(http, {
   cors: {
-    origin: ["https://chatterbox-by-amlan.vercel.app/"],
+    origin: [
+      "https://chatterbox-by-amlan.vercel.app/",
+      "https://chatterbox-by-amlan.vercel.app/socket.io",
+    ],
   },
 });
 
